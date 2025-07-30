@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Page Assistant</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <div class="header">
+      <div class="logo">
+        <div class="logo-icon">🤖</div>
+        <h1>AI Assistant</h1>
+      </div>
+    </div>
+    
+    <div class="content">
+      <div id="api-key-section" class="section">
+        <h3>Setup Required</h3>
+        <p>Enter your OpenAI API key to get started:</p>
+        <input type="password" id="api-key-input" placeholder="sk-..." />
+        <button id="save-key-btn" class="btn btn-primary">Save API Key</button>
+        <p class="note">Your API key is stored locally and never shared.</p>
+      </div>
+      
+      <div id="main-section" class="section" style="display: none;">
+        <h3>AI Page Assistant</h3>
+        <p>The AI assistant is now active on this page. Look for the floating chat button!</p>
+        <button id="toggle-assistant-btn" class="btn btn-secondary">Toggle Assistant</button>
+        <button id="change-key-btn" class="btn btn-outline">Change API Key</button>
+      </div>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
