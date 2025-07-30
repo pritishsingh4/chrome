@@ -7,9 +7,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   const changeKeyBtn = document.getElementById('change-key-btn');
 
   // Check if API key exists
-  const result = await chrome.storage.sync.get(['openai_api_key']);
+  const result = await chrome.storage.sync.get(['gemini_api_key']);
   
-  if (result.openai_api_key) {
+  if (result.gemini_api_key) {
     apiKeySection.style.display = 'none';
     mainSection.style.display = 'block';
   }
@@ -23,12 +23,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
-    if (!apiKey.startsWith('sk-')) {
-      alert('Please enter a valid OpenAI API key (starts with sk-)');
+    if (!apiKey.startsWith('AIza')) {
+      alert('Please enter a valid Google Gemini API key (starts with AIza)');
       return;
     }
 
-    await chrome.storage.sync.set({ openai_api_key: apiKey });
+    await chrome.storage.sync.set({ gemini_api_key: apiKey });
     
     apiKeySection.style.display = 'none';
     mainSection.style.display = 'block';

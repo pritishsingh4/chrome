@@ -1,6 +1,6 @@
-# AI Page Assistant Chrome Extension
+# Gemini Page Assistant Chrome Extension
 
-A powerful Chrome extension that brings ChatGPT directly to any webpage, allowing you to analyze, understand, and interact with page content using AI.
+A powerful Chrome extension that brings Google Gemini directly to any webpage, allowing you to analyze, understand, and interact with page content using AI.
 
 ## Features
 
@@ -13,10 +13,11 @@ A powerful Chrome extension that brings ChatGPT directly to any webpage, allowin
 
 ## Installation
 
-1. **Get an OpenAI API Key**
-   - Visit [OpenAI's API platform](https://platform.openai.com/api-keys)
-   - Create an account and generate an API key
-   - Copy your API key (starts with `sk-`)
+1. **Get a Google Gemini API Key**
+   - Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
+   - Sign in with your Google account
+   - Click "Create API Key" 
+   - Copy your API key (starts with `AIza`)
 
 2. **Install the Extension**
    - Download or clone this repository
@@ -26,7 +27,7 @@ A powerful Chrome extension that brings ChatGPT directly to any webpage, allowin
 
 3. **Setup**
    - Click the extension icon in your browser toolbar
-   - Enter your OpenAI API key
+   - Enter your Google Gemini API key
    - The AI assistant will now appear on any webpage
 
 ## Usage
@@ -43,7 +44,7 @@ A powerful Chrome extension that brings ChatGPT directly to any webpage, allowin
 ## Privacy & Security
 
 - Your API key is stored locally in your browser
-- No data is sent to third parties except OpenAI for processing
+- No data is sent to third parties except Google for processing
 - Page content is only analyzed when you actively use the assistant
 - All communication is encrypted via HTTPS
 
@@ -86,8 +87,8 @@ To modify or extend the extension:
 - Try refreshing the page
 
 **API errors?**
-- Verify your OpenAI API key is correct
-- Check your OpenAI account has sufficient credits
+- Verify your Google Gemini API key is correct
+- Check your Google Cloud account has API access enabled
 - Ensure stable internet connection
 
 ## License

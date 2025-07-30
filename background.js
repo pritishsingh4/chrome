@@ -1,41 +1,54 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === 'chatGPT') {
-    handleChatGPTRequest(request, sendResponse);
+  if (request.action === 'gemini') {
+    handleGeminiRequest(request, sendResponse);
     return true; // Keep message channel open for async response
   }
 });
 
-async function handleChatGPTRequest(request, sendResponse) {
+async function handleGeminiRequest(request, sendResponse) {
   try {
     // Get API key from storage
-    const result = await chrome.storage.sync.get(['openai_api_key']);
-    const apiKey = result.openai_api_key;
+    const result = await chrome.storage.sync.get(['gemini_api_key']);
+    const apiKey = result.gemini_api_key;
     
     if (!apiKey) {
-      sendResponse({ error: 'No API key found. Please set your OpenAI API key in the extension popup.' });
+      sendResponse({ error: 'No API key found. Please set your Google Gemini API key in the extension popup.' });
       return;
     }
     
-    // Prepare messages for ChatGPT
-    const systemMessage = {
-      role: 'system',
-      content: `You are an AI assistant that helps users understand and analyze web pages. You have access to the current page content. Be helpful, concise, and accurate. Here's the current page content:\n\n${request.pageContent}`
-    };
+    // Prepare prompt for Gemini
+    const systemPrompt = `You are an AI assistant that helps users understand and analyze web pages. You have access to the current page content. Be helpful, concise, and accurate. Here's the current page content:\n\n${request.pageContent}\n\n`;
     
-    const messages = [systemMessage, ...request.messages, { role: 'user', content: request.message }];
+    // Build conversation history
+    let conversationHistory = '';
+    for (const msg of request.messages) {
+      if (msg.role === 'user') {
+        conversationHistory += `User: ${msg.content}\n`;
+      } else if (msg.role === 'assistant') {
+        conversationHistory += `Assistant: ${msg.content}\n`;
+      }
+    }
     
-    // Make API call to OpenAI
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const fullPrompt = systemPrompt + conversationHistory + `User: ${request.message}\nAssistant:`;
+    
+    // Make API call to Google Gemini
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
-        messages: messages,
-        max_tokens: 500,
-        temperature: 0.7
+        contents: [{
+          parts: [{
+            text: fullPrompt
+          }]
+        }],
+        generationConfig: {
+          temperature: 0.7,
+          topK: 40,
+          topP: 0.95,
+          maxOutputTokens: 500
+        }
       })
     });
     
@@ -45,12 +58,12 @@ async function handleChatGPTRequest(request, sendResponse) {
     }
     
     const data = await response.json();
-    const aiMessage = data.choices[0]?.message?.content || 'Sorry, I could not generate a response.';
+    const aiMessage = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sorry, I could not generate a response.';
     
     sendResponse({ message: aiMessage });
     
   } catch (error) {
-    console.error('ChatGPT API Error:', error);
+    console.error('Gemini API Error:', error);
     sendResponse({ error: error.message });
   }
 }

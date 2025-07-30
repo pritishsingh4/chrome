@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "AI Page Assistant",
+  "name": "Gemini Page Assistant",
   "version": "1.0.0",
-  "description": "AI-powered assistant that can analyze and respond to any webpage content using ChatGPT",
+  "description": "AI-powered assistant that can analyze and respond to any webpage content using Google Gemini",
   "permissions": [
     "activeTab",
     "storage",

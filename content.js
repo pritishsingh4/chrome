@@ -11,8 +11,8 @@ class AIPageAssistant {
 
   async init() {
     // Check if API key exists
-    const result = await chrome.storage.sync.get(['openai_api_key']);
-    this.apiKey = result.openai_api_key;
+    const result = await chrome.storage.sync.get(['gemini_api_key']);
+    this.apiKey = result.gemini_api_key;
     
     if (this.apiKey) {
       this.createAssistant();
@@ -53,7 +53,7 @@ class AIPageAssistant {
     this.panel.innerHTML = `
       <div class="ai-assistant-header">
         <div class="ai-assistant-title">
-          🤖 AI Assistant
+          🤖 Gemini Assistant
         </div>
         <button class="ai-assistant-close">×</button>
       </div>
@@ -193,7 +193,7 @@ class AIPageAssistant {
     try {
       // Send to background script for API call
       const response = await chrome.runtime.sendMessage({
-        action: 'chatGPT',
+        action: 'gemini',
         message: message,
         pageContent: this.pageContent,
         messages: this.messages
